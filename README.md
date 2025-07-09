@@ -41,8 +41,9 @@ Objectives:
 
 ⸻
 
-📂 Folder Structure Overview
+## 📂 Folder Structure Overview
 
+```
 📁 5g-project-data/       # Raw base station, config, energy files (CSV)
 📁 data/
   └── preprocessed_data/ # Train/test splits as parquet
@@ -53,8 +54,19 @@ Objectives:
 📁 feature-imp/           # SHAP feature impact visualizations
 📁 hypothesis_tests/      # One-sided t-test results for model significance
 📁 comparison-graphs/     # MAE comparison graphs
-
-
+📄 main.py                # Entry point: runs full pipeline
+📄 data_ingestion.py      # Converts raw CSVs to parquet
+📄 data_preprocessing.py  # Cleans, smooths, adds lags
+📄 training_prediction.py # Model training & validation (GroupKFold)
+📄 evaluation_comparison.py   # Compares trained models with baseline
+📄 feature_importance_shap.py # SHAP visualizations
+📄 hypothesis_testing.py      # One-sided statistical test (MAE < 1.5)
+📄 Models.py              # Model definitions (MLP, CNN, LSTM, GRU)
+📄 settings.py            # Global constants and paths
+📄 variables.yaml         # Hyperparameter/config variables
+📄 utils.py               # Helper functions
+📄 pipeline.py            # Connects all stages of the pipeline
+```
 ⸻
 
 🧾 Script Overview
