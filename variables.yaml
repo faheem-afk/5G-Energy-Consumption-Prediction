@@ -1,0 +1,54 @@
+lagged_features:
+  - load_T-1
+  - ESMode6_T-1
+  - Energy_T-1
+  - Time_T-1_hours_elapsed
+  - load_T-2
+  - ESMode6_T-2
+  - Energy_T-2
+  - Time_T-2_hours_elapsed
+  - load_T-3
+  - ESMode6_T-3
+  - Energy_T-3
+  - Time_T-3_hours_elapsed
+
+static_data:
+  - TXpower
+  - Bandwidth
+  - Antennas
+  - hour
+  - hour_spline_0
+  - hour_spline_1
+  - hour_spline_2
+  - hour_spline_3
+  - hour_spline_4
+  - hour_spline_5
+  - hour_spline_6
+  - hour_spline_7
+  - hour_spline_8
+  - hour_spline_9
+  - hour_spline_10
+  - hour_spline_11
+  - load_bin
+  - load_smooth
+  - load_diff
+  - load_diff2
+  - load_diff3
+  - load_sosfiltfilt
+  - load_sosfilt
+  - Energy_lagged_mean
+  - Energy_lagged_std
+  - Energy_lagged_sum
+  - Energy_lagged_max
+  - Energy_lagged_min
+  - load_lagged_mean
+  - load_lagged_std
+  - load_lagged_sum
+  - load_lagged_max
+  - load_lagged_min
+  - load*Mode
+  - Antenna*tx
+  - Bandwidth*freq
+
+target_col: 
+  - Energy
