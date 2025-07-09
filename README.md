@@ -31,7 +31,6 @@ Predicting 5G energy use is **not trivial**:
 - ⚠️ **Temporal dependency**: Current usage depends on traffic/config in past hours.
 - ⚠️ **Data leakage**: Base station records must not overlap between training/validation.
 - ⚠️ **Overfitting risk**: Models may memorize instead of generalize.
-- ⚠️ **Data imbalance**: Some base stations dominate, others are rare.
 - ⚠️ **Model selection**: Different models suit different data types (time vs static).
 - ⚠️ **Tuning complexity**: Learning rates, batch size, dropout, layers — all matter!
 
@@ -54,7 +53,6 @@ Predicting 5G energy use is **not trivial**:
 ### ✅ Hyperparameter Tuning:
 - Uses **Optuna** with:
   - `TPE` (Tree-structured Parzen Estimator) for Bayesian optimization.
-  - `CMA-ES` for evolutionary search in complex search spaces.
 
 ---
 
@@ -129,7 +127,7 @@ tqdm==4.64.1
 
 ⸻
 
-📬 Contact
+📬 Contact - adahm7114@gmail.com
 
 If you have questions or would like to contribute to the project, feel free to raise an issue or fork the repository.
 
@@ -139,4 +137,3 @@ Note: This repository was created as part of a master’s dissertation on predic
 
 ---
 
-Let me know if you'd like a version written as a `README.md` file or want to include GitHub badges, citation formats, or license information.
