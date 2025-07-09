@@ -1,139 +1,139 @@
-Thanks for the updated structure screenshots! Based on your full setup and explanation, here’s a complete and well-organized README.md file tailored for your 5G energy prediction dissertation project.
+Thanks for sharing the updated visual of your folder structure! Based on it, here’s the updated and complete README.md content with the correct folder and file explanations incorporated:
 
 ⸻
 
+📡 5G Energy Consumption Prediction
 
-# 📡 5G Energy Consumption Prediction using Deep Learning
+This repository contains the complete implementation of a machine learning-based system for predicting hourly energy consumption of 5G base stations. It is designed to help telecom operators anticipate power demands and improve energy efficiency through intelligent, data-driven modeling.
 
-This repository presents the codebase for a dissertation project aimed at **predicting hourly energy consumption of 5G base stations** using deep learning. The models developed here are designed to help telecom operators optimize power usage and enhance sustainability across diverse network configurations.
+⸻
 
----
+🎯 Research Aim and Objectives
 
-## 🎯 Research Aim and Objectives
+Aim:
+To develop a reliable ML-based model capable of accurately predicting the energy consumption (in kWh) of 5G base stations. The goal is to support network operators in improving their energy-saving strategies.
 
-**Aim:**  
-To develop a machine learning-based model that reliably forecasts the energy consumption (in kWh) of 5G base stations, enabling better energy-saving strategies in real-world telecom environments.
+Objectives:
+	•	📚 Review ML methods applied to energy prediction in 5G networks.
+	•	🧪 Select an appropriate Data Science methodology.
+	•	📥 Gather and process datasets with features like configuration, traffic load, and energy usage.
+	•	🧠 Design, train, and evaluate multiple ML models (MLP, CNN, LSTM, GRU).
+	•	🌐 Test models on unseen base stations to ensure generalization.
+	•	📊 Analyze results and recommend strategies based on performance.
 
-**Objectives:**
-- Review ML/DL approaches used in 5G energy modeling.
-- Acquire and process a comprehensive dataset (base station configs, load, usage).
-- Build lag-based temporal features to capture consumption patterns.
-- Design hybrid deep learning models (CNN + RNN/LSTM/GRU).
-- Use GroupKFold cross-validation to evaluate generalization to unseen base stations.
-- Analyze feature importance and conduct hypothesis testing on performance.
-- Deliver actionable insights for network operators.
+⸻
 
----
+❗ Problem Analysis Summary
+	•	Time-Dependency: Energy usage depends on lagged features such as traffic, configuration, and past energy levels.
+	•	Data Leakage Risk: If base stations appear in both train/validation sets, the model might memorize rather than generalize.
+	•	Overfitting: Inflated performance on validation sets may not transfer to new stations.
+	•	Imbalanced Data: Overrepresented base stations can bias the model.
+	•	Model Selection: No universally optimal architecture; various deep models tested.
+	•	Hyperparameter Tuning: Manual tuning is error-prone; automated strategies are used (Optuna, TPE, CMA-ES).
 
-## 🧠 Problem Summary
+⸻
 
-Predicting 5G energy use is **not trivial**:
-- ⚠️ **Temporal dependency**: Current usage depends on traffic/config in past hours.
-- ⚠️ **Data leakage**: Base station records must not overlap between training/validation.
-- ⚠️ **Overfitting risk**: Models may memorize instead of generalize.
-- ⚠️ **Model selection**: Different models suit different data types (time vs static).
-- ⚠️ **Tuning complexity**: Learning rates, batch size, dropout, layers — all matter!
+🧠 Design Highlights
+	•	✅ Temporal features engineered: via lagging traffic, energy, and settings.
+	•	✅ Hybrid Deep Models: CNN for short-term pattern extraction + LSTM/GRU for temporal learning.
+	•	✅ GroupKFold Strategy: Avoids leakage by keeping base stations exclusive to each fold.
+	•	✅ Smart Hyperparameter Optimization: Done using Optuna (TPE & CMA-ES samplers).
 
----
+⸻
 
-## 🧪 Methodology & Design
+📂 Folder Structure Overview
 
-### ✅ Feature Engineering:
-- Uses **lagged features** (e.g., `Energy_T-1`, `load_diff2`) to model time patterns.
-- Applies smoothing using **Savitzky-Golay** and **Second-Order Section (SOS)** filters.
+📁 5g-project-data/       # Raw base station, config, energy files (CSV)
+📁 data/
+  └── preprocessed_data/ # Train/test splits as parquet
+📁 artifacts/             # Trained model files (GRU, LSTM, RNN)
+📁 logs/                  # Training logs
+📁 results/               # Per-model MAE results
+📁 Training-specs/        # Training durations and device usage logs
+📁 feature-imp/           # SHAP feature impact visualizations
+📁 hypothesis_tests/      # One-sided t-test results for model significance
+📁 comparison-graphs/     # MAE comparison graphs
 
-### ✅ Model Architecture:
-- Hybrid **CNN → LSTM / GRU / RNN** pipelines:
-  - CNN learns local short-term shifts.
-  - RNN-based layers model temporal dynamics.
 
-### ✅ Data Leakage Prevention:
-- **GroupKFold** split by base station ID prevents same-station info leak.
+⸻
 
-### ✅ Hyperparameter Tuning:
-- Uses **Optuna** with:
-  - `TPE` (Tree-structured Parzen Estimator) for Bayesian optimization.
+🧾 Script Overview
 
----
+Script	Purpose
+main.py	🚀 Entry point: Runs the full pipeline
+data_ingestion.py	📥 Converts raw CSVs to parquet format
+data_preprocessing.py	🧹 Cleans data, adds lags, applies smoothing filters
+training_prediction.py	🧠 Trains models (GRU, LSTM, etc.) using GroupKFold
+evaluation_comparison.py	📊 Compares trained models with the baseline
+feature_importance_shap.py	🔍 Visualizes SHAP values for feature explanation
+hypothesis_testing.py	📈 Runs 1-sample t-test (MAE < 1.5) and outputs significance
+Models.py	🏗️ Contains definitions for MLP, CNN, LSTM, GRU
+settings.py	⚙️ Global paths and constant configurations
+variables.yaml	📑 Hyperparameter ranges and training variables
+utils.py	🧰 Helper functions
+logger.py	📝 Logging utility for experiment tracking
+pipeline.py	🔄 Utility for chaining major steps together
 
-## 🗂️ Folder Structure Overview
 
-📁 5g-project-data/         # Raw base station, config, energy files (CSV)
-📁 data/                    # Intermediate parquet files for modeling
-└── preprocessed_data/ # Train/test splits
-📁 artifacts/               # Trained model files (GRU, LSTM, RNN)
-📁 logs/                    # Training logs
-📁 results/                 # Per-model MAE scores
-📁 Training-specs/          # Training durations and resource logs
-📁 feature-imp/             # SHAP feature importance visualizations
-📁 hypothesis_tests/        # One-sided t-test results (.json)
-📁 comparison-graphs/       # MAE comparisons for visualization
+⸻
 
-🧠 main.py                # Entry point: runs full pipeline
-📄 data_ingestion.py        # Converts CSVs to parquet
-📄 data_preprocessing.py    # Cleans, smooths, adds lags
-📄 training_prediction.py   # Model training & validation (GroupKFold)
-📄 evaluation_comparison.py # Compare models vs baseline
-📄 feature_importance_shap.py # SHAP-based model explanation
-📄 hypothesis_testing.py    # Statistical testing (H0: MAE ≥ 1.5)
-📄 settings.py              # Global constants and paths
-📄 variables.yaml           # Experiment hyperparameters/configs
-📄 Models.py                # Model definitions (MLP, CNN, LSTM, GRU)
-📄 utils.py                 # Helpers
+🏁 How to Run
+	1.	Clone the repository
 
----
+git clone https://github.com/yourusername/5g-energy-prediction.git
+cd 5g-energy-prediction
 
-## ▶️ How to Run the Code
 
-### 1️⃣ Install requirements
-```bash
+	2.	Install dependencies
+
 pip install -r requirements.txt
 
-2️⃣ Launch full pipeline
+
+	3.	Run the pipeline
 
 python main.py
 
-Everything from data ingestion, preprocessing, training, evaluation, model saving, and SHAP plots will run automatically.
+
+	4.	Outputs will be saved to:
+	•	results/ – MAE scores per model
+	•	artifacts/ – Trained model binaries
+	•	feature-imp/ – SHAP plots
+	•	hypothesis_tests/ – p-value analysis
+	•	Training-specs/ – Time taken per fold/device info
 
 ⸻
 
-📊 Key Outputs
+🔬 Requirements
 
-Folder	Description
-results/	MAE values for each model (GRU.csv, LSTM.csv…)
-feature-imp/	SHAP value plots (*_shap_summary.png)
-artifacts/	Final trained models
-Training-specs/	Per-model training duration in JSON
-hypothesis_tests/	One-tailed t-test for MAE < 1.5
-comparison-graphs/	MAE comparison visualizations
+Listed in requirements.txt:
 
-
-⸻
-
-📦 Dependencies
-
-matplotlib==3.6.3  
-numpy==1.23.5  
-pandas==1.5.3  
-PyYAML==6.0.2  
-scikit_learn==1.7.0  
-scipy==1.9.3  
-seaborn==0.13.2  
-shap==0.48.0  
-tensorflow==2.18.0  
-torch==2.6.0  
+matplotlib==3.6.3
+numpy==1.23.5
+pandas==1.5.3
+PyYAML==6.0.2
+scikit_learn==1.7.0
+scipy==1.9.3
+seaborn==0.13.2
+shap==0.48.0
+tensorflow==2.18.0
+torch==2.6.0
 tqdm==4.64.1
 
 
 ⸻
 
-📬 Contact - adahm7114@gmail.com
-
-If you have questions or would like to contribute to the project, feel free to raise an issue or fork the repository.
+📈 Sample Output Visuals
+	•	MAE Comparison between models
+	•	SHAP plots showing feature impact
+	•	One-sided t-test JSON verdicts
+	•	Training time summary logs
 
 ⸻
 
-Note: This repository was created as part of a master’s dissertation on predictive energy optimization in 5G networks.
+📬 Contact
 
----
+For queries or feedback, reach out via GitHub or email the project author.
 
+⸻
+
+Let me know if you want this README exported as a file or tailored for a specific GitHub theme (e.g. dark/light markdown, badges, license, contribution instructions, etc.).
