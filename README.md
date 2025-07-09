@@ -1,123 +1,96 @@
-Thanks for sharing the updated visual of your folder structure! Based on it, here’s the updated and complete README.md content with the correct folder and file explanations incorporated:
+📡 5G Energy Consumption Prediction (Dissertation Project)
 
-⸻
-
-📡 5G Energy Consumption Prediction
-
-This repository contains the complete implementation of a machine learning-based system for predicting hourly energy consumption of 5G base stations. It is designed to help telecom operators anticipate power demands and improve energy efficiency through intelligent, data-driven modeling.
+This repository contains the complete source code and resources for a Master’s dissertation project focused on forecasting energy consumption of 5G base stations using advanced deep learning models. The pipeline is fully automated via main.py and built to explore the impact of time-dependence, model generalization, and real-world deployment constraints.
 
 ⸻
 
 🎯 Research Aim and Objectives
 
 Aim:
-To develop a reliable ML-based model capable of accurately predicting the energy consumption (in kWh) of 5G base stations. The goal is to support network operators in improving their energy-saving strategies.
+To develop a reliable machine learning-based model capable of accurately predicting the energy consumption of 5G base stations, assisting network operators in enhancing their energy-saving strategies.
 
 Objectives:
-	•	📚 Review ML methods applied to energy prediction in 5G networks.
-	•	🧪 Select an appropriate Data Science methodology.
-	•	📥 Gather and process datasets with features like configuration, traffic load, and energy usage.
-	•	🧠 Design, train, and evaluate multiple ML models (MLP, CNN, LSTM, GRU).
-	•	🌐 Test models on unseen base stations to ensure generalization.
-	•	📊 Analyze results and recommend strategies based on performance.
+	•	Review literature on ML methods for 5G energy prediction.
+	•	Select and implement a robust data science approach.
+	•	Gather and preprocess a comprehensive dataset with traffic load, base station configs, and power usage.
+	•	Design, train, and evaluate ML/DL models including CNN, LSTM, GRU.
+	•	Validate model generalization on unseen base stations.
+	•	Interpret results and offer practical recommendations.
 
 ⸻
 
-❗ Problem Analysis Summary
-	•	Time-Dependency: Energy usage depends on lagged features such as traffic, configuration, and past energy levels.
-	•	Data Leakage Risk: If base stations appear in both train/validation sets, the model might memorize rather than generalize.
-	•	Overfitting: Inflated performance on validation sets may not transfer to new stations.
-	•	Imbalanced Data: Overrepresented base stations can bias the model.
-	•	Model Selection: No universally optimal architecture; various deep models tested.
-	•	Hyperparameter Tuning: Manual tuning is error-prone; automated strategies are used (Optuna, TPE, CMA-ES).
+🧠 Problem Summary
+	•	Temporal Dependency: Energy usage depends not only on current inputs but also on previous load, power levels, and configurations. Models assuming i.i.d. inputs (like traditional ML) underperform.
+	•	Data Leakage: Same base station data in both training and validation leads to false confidence. Solved via GroupKFold.
+	•	Overfitting Risk: Models memorize station-specific trends. Generalization tested on unseen stations.
+	•	Imbalanced Data: Some base stations are overrepresented.
+	•	Architecture Selection: Compared MLP, CNN, LSTM, GRU, hybrid models.
+	•	Hyperparameter Tuning: Used Optuna with TPE and CMA-ES samplers.
 
 ⸻
 
-🧠 Design Highlights
-	•	✅ Temporal features engineered: via lagging traffic, energy, and settings.
-	•	✅ Hybrid Deep Models: CNN for short-term pattern extraction + LSTM/GRU for temporal learning.
-	•	✅ GroupKFold Strategy: Avoids leakage by keeping base stations exclusive to each fold.
-	•	✅ Smart Hyperparameter Optimization: Done using Optuna (TPE & CMA-ES samplers).
+🏗️ Design Overview
+	•	Feature Engineering: Lagged energy, rolling load, and elapsed time as time-series predictors. Smoothing filters: Savitzky-Golay, Second Order Sections.
+	•	Model Architecture: Hybrid CNN-RNN (GRU, LSTM, RNN) structure to learn local and sequential patterns.
+	•	Evaluation Protocol: GroupKFold split ensures no base station appears in both train/val.
+	•	Hyperparameter Optimization: Optuna was used to automate tuning.
+	•	Model Interpretability: SHAP used for post-hoc explanations.
+	•	Statistical Testing: One-sided t-tests to evaluate model MAE < 1.5 kWh.
 
 ⸻
 
-## 📂 Folder Structure Overview
+🏃 How to Run
 
-```
-📁 5g-project-data/       # Raw base station, config, energy files (CSV)
-📁 data/
-  └── preprocessed_data/ # Train/test splits as parquet
-📁 artifacts/             # Trained model files (GRU, LSTM, RNN)
-📁 logs/                  # Training logs
-📁 results/               # Per-model MAE results
-📁 Training-specs/        # Training durations and device usage logs
-📁 feature-imp/           # SHAP feature impact visualizations
-📁 hypothesis_tests/      # One-sided t-test results for model significance
-📁 comparison-graphs/     # MAE comparison graphs
-📄 main.py                # Entry point: runs full pipeline
-📄 data_ingestion.py      # Converts raw CSVs to parquet
-📄 data_preprocessing.py  # Cleans, smooths, adds lags
-📄 training_prediction.py # Model training & validation (GroupKFold)
-📄 evaluation_comparison.py   # Compares trained models with baseline
-📄 feature_importance_shap.py # SHAP visualizations
-📄 hypothesis_testing.py      # One-sided statistical test (MAE < 1.5)
-📄 Models.py              # Model definitions (MLP, CNN, LSTM, GRU)
-📄 settings.py            # Global constants and paths
-📄 variables.yaml         # Hyperparameter/config variables
-📄 utils.py               # Helper functions
-📄 pipeline.py            # Connects all stages of the pipeline
-```
-⸻
-
-🧾 Script Overview
-
-Script	Purpose
-main.py	🚀 Entry point: Runs the full pipeline
-data_ingestion.py	📥 Converts raw CSVs to parquet format
-data_preprocessing.py	🧹 Cleans data, adds lags, applies smoothing filters
-training_prediction.py	🧠 Trains models (GRU, LSTM, etc.) using GroupKFold
-evaluation_comparison.py	📊 Compares trained models with the baseline
-feature_importance_shap.py	🔍 Visualizes SHAP values for feature explanation
-hypothesis_testing.py	📈 Runs 1-sample t-test (MAE < 1.5) and outputs significance
-Models.py	🏗️ Contains definitions for MLP, CNN, LSTM, GRU
-settings.py	⚙️ Global paths and constant configurations
-variables.yaml	📑 Hyperparameter ranges and training variables
-utils.py	🧰 Helper functions
-logger.py	📝 Logging utility for experiment tracking
-pipeline.py	🔄 Utility for chaining major steps together
-
-
-⸻
-
-🏁 How to Run
-	1.	Clone the repository
-
-git clone https://github.com/yourusername/5g-energy-prediction.git
-cd 5g-energy-prediction
-
-
-	2.	Install dependencies
-
+# Install dependencies
 pip install -r requirements.txt
 
-
-	3.	Run the pipeline
-
+# Run the entire pipeline
 python main.py
 
-
-	4.	Outputs will be saved to:
-	•	results/ – MAE scores per model
-	•	artifacts/ – Trained model binaries
-	•	feature-imp/ – SHAP plots
-	•	hypothesis_tests/ – p-value analysis
-	•	Training-specs/ – Time taken per fold/device info
+📁 All logs, models, graphs, and results will be saved automatically to their respective folders.
 
 ⸻
 
-🔬 Requirements
+📂 Folder Structure Overview
 
-Listed in requirements.txt:
+📁 5g-project-data/        # Raw base station, config, energy files (CSV)
+📁 data/
+ └── preprocessed_data/   # Train/test parquet splits
+📁 artifacts/              # Trained model folders (GRU, LSTM, RNN)
+📁 logs/                   # Training logs
+📁 results/                # CSV MAE per model
+📁 Training-specs/         # Avg epoch time, training device info
+📁 hypothesis_tests/       # One-sided t-test results (.json)
+📁 feature-imp/            # SHAP visualizations (summary plots)
+📁 comparison-graphs/      # MAE comparisons (e.g. GRU vs LSTM)
+
+📄 main.py                 # Entry point; runs entire pipeline
+📄 data_ingestion.py       # Converts CSVs to parquet
+📄 data_preprocessing.py   # Cleans, filters, adds lags
+📄 training_prediction.py  # GroupKFold training + test evaluation
+📄 evaluation_comparison.py# Compare models vs baseline
+📄 feature_importance_shap.py # SHAP impact plots
+📄 hypothesis_testing.py   # One-sided t-test (H0: MAE >= 1.5)
+📄 Models.py               # Defines MLP, CNN, LSTM, GRU
+📄 pipeline.py             # Pipeline connectivity
+📄 settings.py             # Global constants and folder paths
+📄 variables.yaml          # Hyperparameters and control switches
+📄 utils.py                # Misc helpers (e.g., filters)
+
+
+⸻
+
+🔬 Core Functionalities
+	•	Data Ingestion (data_ingestion.py): Reads raw CSV files from 5g-project-data/ and saves them as parquet in data/.
+	•	Preprocessing (data_preprocessing.py): Cleans data, smoothens traffic with Savitzky-Golay & SOS, adds lagged variables.
+	•	Model Training (training_prediction.py): Trains each model over GroupKFold, stores predictions, tracks validation & test MAE.
+	•	Model Evaluation (evaluation_comparison.py): Compares models visually and numerically.
+	•	Explainability (feature_importance_shap.py): SHAP plots for each model.
+	•	Significance Test (hypothesis_testing.py): Performs 1-sided t-test (H0: MAE >= 1.5).
+
+⸻
+
+📦 Requirements
 
 matplotlib==3.6.3
 numpy==1.23.5
@@ -134,18 +107,14 @@ tqdm==4.64.1
 
 ⸻
 
-📈 Sample Output Visuals
-	•	MAE Comparison between models
-	•	SHAP plots showing feature impact
-	•	One-sided t-test JSON verdicts
-	•	Training time summary logs
+💬 Author & Credits
+
+This project was developed as part of a Master’s dissertation on 5G energy consumption prediction. The project integrates deep learning, explainable AI, and statistical testing in a real-world forecasting problem.
+
+For questions or contributions, feel free to open an issue or fork the repo.
 
 ⸻
 
-📬 Contact
+📘 License
 
-For queries or feedback, reach out via GitHub or email the project author.
-
-⸻
-
-Let me know if you want this README exported as a file or tailored for a specific GitHub theme (e.g. dark/light markdown, badges, license, contribution instructions, etc.).
+MIT License. See LICENSE file for details.
