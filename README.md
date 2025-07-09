@@ -1,8 +1,3 @@
-Thanks for the updated structure screenshots! Based on your full setup and explanation, here’s a complete and well-organized README.md file tailored for your 5G energy prediction dissertation project.
-
-⸻
-
-
 # 📡 5G Energy Consumption Prediction using Deep Learning
 
 This repository presents the codebase for a dissertation project aimed at **predicting hourly energy consumption of 5G base stations** using deep learning. The models developed here are designed to help telecom operators optimize power usage and enhance sustainability across diverse network configurations.
@@ -126,15 +121,3 @@ tqdm==4.64.1
 
 
 ⸻
-
-📬 Contact
-
-If you have questions or would like to contribute to the project, feel free to raise an issue or fork the repository.
-
-⸻
-
-Note: This repository was created as part of a master’s dissertation on predictive energy optimization in 5G networks.
-
----
-
-Let me know if you'd like a version written as a `README.md` file or want to include GitHub badges, citation formats, or license information.
