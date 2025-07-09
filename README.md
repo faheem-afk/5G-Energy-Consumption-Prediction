@@ -48,7 +48,6 @@ Predicting 5G energy use is **not trivial**:
 ### ✅ Hyperparameter Tuning:
 - Uses **Optuna** with:
   - `TPE` (Tree-structured Parzen Estimator) for Bayesian optimization.
-  - 
 ---
 
 ## 🗂️ Folder Structure Overview
