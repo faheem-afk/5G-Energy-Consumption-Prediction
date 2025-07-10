@@ -1,0 +1,13 @@
+{
+  "significance_value": 0.05,
+  "t-statistic": "-168.2522",
+  "H0": 1.5,
+  "one-sided_p-value": "2.35e-17",
+  "MAE_sample_mean": 0.8592,
+  "95%_confidence_interval": [
+    0.8506,
+    0.8678
+  ],
+  "p = 2.35e-17 < 0.05": "reject H0",
+  "model_significance": "Positive"
+}

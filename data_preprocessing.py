@@ -101,7 +101,7 @@ class DataPreprocessing():
         #Imputing the missing value with 0
         self.df_total['load_bin'] = self.df_total['load_bin'].fillna(0)
         
-        #Using Savitz-Golay filter and the butterworth filter to create smoothened load features
+        #Using Savitzky-Golay filter and the sos filter to create smoothened load features
         add_sg(self.df_total)
         add_sosfiltfilt(self.df_total)
         

@@ -63,11 +63,13 @@ class TrainingPrediction():
                 #Creating an instance of the model for each fold
                 model = cls().to(device)
                 
+                parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
+                
                 print("\n")
                 
                 logging.info(f"Fold {fold}/{n_splits} ..\n")
             
-                logging.info(f"{match.group()} instantiated with {sum(p.numel() for p in model.parameters() if p.requires_grad)} params ..\n")
+                logging.info(f"{match.group()} instantiated with {parameters} params ..\n")
                 
                 criterion = nn.L1Loss()
                 optimizer = torch.optim.AdamW(model.parameters(), 
@@ -230,7 +232,8 @@ class TrainingPrediction():
             time_dic = {
                 "Avg epoch time": f"{(diff / n_epochs)}s",
                 "Total Time taken": f"{(diff / n_epochs) * n_splits}s",
-                "Training-device":f"{device}"
+                "Training-device":f"{device}",
+                "Parameters":f"{parameters}"
             }    
             with open(f'Training-specs/{match.group()}.json', 'w') as f:
                 json.dump(time_dic, f, indent=2)
