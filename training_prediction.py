@@ -28,39 +28,39 @@ class TrainingPrediction():
   
     def training_and_validation(self):
         
-        #Setting the seed value for reproducibility
+        # Setting the seed value for reproducibility
         set_seed(42)
         seed_everything(42)
         
         train_data, test_data =  self.dataPreprocessingObject.pre_processing()
         
-        #Using GroupKfold for training, so we would have different base_stations while training and different ones while validation
+        # Using GroupKfold for training, so we would have different base_stations while training and different ones while validation
         gkf = GroupKFold(n_splits=n_splits)
         groups = train_data['BS']
 
-        #Get all classes defined in that module
+        # Get all classes defined in that module
         classes = inspect.getmembers(Models, inspect.isclass)
 
-        #Filter to include only classes defined in that module
+        # Filter to include only classes defined in that module
         module_classes = [cls for name, cls in classes if cls.__module__ == Models.__name__]
         
-        #Filter to include only names defined in that module
+        # Filter to include only names defined in that module
         module_names = [name for name, cls in classes if cls.__module__ == Models.__name__]
         
         pattern = re.compile(r"rnn|gru|lstm", flags=re.IGNORECASE)
 
 
-        #Looping through the models 
+        # Looping through the models 
         for cls_idx, cls in enumerate(module_classes):
             all_scores = []
 
             match = re.search(pattern, module_names[cls_idx])
 
-            #Looping through the folds for each model
+            # Looping through the folds for each model
             fold = 1
             for train_idx, valid_idx in gkf.split(train_data, train_data['Energy'], groups=groups):
                 
-                #Creating an instance of the model for each fold
+                # Creating an instance of the model for each fold
                 model = cls().to(device)
                 
                 parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -76,7 +76,7 @@ class TrainingPrediction():
                                             lr = lr, 
                                             weight_decay = weight_decay)
                 
-                #Implements early stopping, so as to prevent overfitting
+                # Implements early stopping, so as to prevent overfitting
                 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
                     optimizer,
                     mode=mode,
@@ -85,27 +85,27 @@ class TrainingPrediction():
                     min_lr=min_lr,    
                 )
                 
-                #Now, using the index values provided by groupKfold, we will create our train, and validation sets
+                # Now, using the index values provided by groupKfold, we will create our train, and validation sets
                 train_df = train_data.loc[train_idx]
                 validation_df = train_data.loc[valid_idx]
             
                 train_dataset = EnergyDataset(train_df)
                 val_dataset = EnergyDataset(validation_df)
                 
-                #For prediction purpose after each fold
+                # For prediction purpose after each fold
                 test_dataset = EnergyDataset(test_data)
                 
                 train_loader = DataLoader(train_dataset, batch_size = batch_size, shuffle=True)
                 val_loader = DataLoader(val_dataset, batch_size = batch_size, shuffle=False)
                 
-                #For prediction purpose after each fold
+                # For prediction purpose after each fold
                 test_loader = DataLoader(test_dataset, batch_size = batch_size, shuffle=False)
                 
-                #This will store the best value found for validation loss throughout the epochs in each fold
+                # This will store the best value found for validation loss throughout the epochs in each fold
                 best_val_loss = float('inf')
                 epochs_no_improve = 0
 
-                #Recording avg time for an epoch in fold 1 only
+                # Recording avg time for an epoch in fold 1 only
                 if fold == 1:
                     start = time.time()
                 
@@ -130,10 +130,10 @@ class TrainingPrediction():
                         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
                         optimizer.step()
                         
-                        #The loss value for a batch will be used as an avg loss in that batch, therefore, the loss will be mutliplied by the number of items in a batch, so as to provide a loss value for each sample
+                        # The loss value for a batch will be used as an avg loss in that batch, therefore, the loss will be mutliplied by the number of items in a batch, so as to provide a loss value for each sample
                         train_loss_accum += loss.item() * seq_batch.size(0)
                     
-                    #Now, since we have a loss value for each sample, we could calculate an avg loss per sample 
+                    # Now, since we have a loss value for each sample, we could calculate an avg loss per sample 
                     avg_train_loss = train_loss_accum / len(train_dataset)
                     
                     model.eval()
@@ -186,7 +186,7 @@ class TrainingPrediction():
                 model = load_model(f"artifacts/{match.group()}", device)
                 logging.info(f"Model loaded ..\n")
                 
-                #Evaluating the model on the test set
+                # Evaluating the model on the test set
                 logging.info(f"Running Evaluation on the test set ..\n")
                 
                 model.eval()
@@ -226,7 +226,7 @@ class TrainingPrediction():
             os.makedirs('results', exist_ok=True)
             pd.Series(all_scores, name="MAE").to_csv(f"results/{match.group()}.csv", index=False)
             
-            #Storing avg time per epoch information
+            # Storing avg time per epoch information
             os.makedirs('Training-specs', exist_ok=True)
                 
             time_dic = {

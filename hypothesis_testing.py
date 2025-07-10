@@ -18,14 +18,14 @@ class HypothesisTest():
             
             alpha = 0.05
             
-            #Null hypothesis: mean(mae_scores) == 1.5
-            #Perform two‐sided t‐test first
+            # Null hypothesis: mean(mae_scores) == 1.5
+            # Perform two‐sided t‐test first
             t_stat, p_two_sided = stats.ttest_1samp(result, popmean=1.5)
 
             
             value_dic = {}
             
-            #Convert to one‐sided p‐value for H1: mean < 1.5
+            # Convert to one‐sided p‐value for H1: mean < 1.5
             p_one_sided = p_two_sided / 2
 
             mean = result.mean()
