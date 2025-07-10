@@ -107,7 +107,7 @@ comparison-graphs/	MAE comparison visualizations
 📦 Dependencies
 
 optuna==4.3.0  
-matplotlib==3.6.3
+matplotlib==3.6.3  
 numpy==1.23.5  
 pandas==1.5.3  
 PyYAML==6.0.2  
