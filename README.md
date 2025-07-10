@@ -106,6 +106,7 @@ comparison-graphs/	MAE comparison visualizations
 
 📦 Dependencies
 
+optuna==4.3.0  
 matplotlib==3.6.3  
 numpy==1.23.5  
 pandas==1.5.3  
@@ -118,5 +119,6 @@ tensorflow==2.18.0
 torch==2.6.0  
 tqdm==4.64.1
 optuna==4.3.0 
+
 
 ⸻
