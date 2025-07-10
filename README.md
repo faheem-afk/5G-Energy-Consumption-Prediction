@@ -117,6 +117,6 @@ shap==0.48.0
 tensorflow==2.18.0  
 torch==2.6.0  
 tqdm==4.64.1
-optuna==4.3.0
+optuna==4.3.0 
 
 ⸻
