@@ -14,8 +14,9 @@ class HypothesisTest():
         for i in model_names:
             
             logging.info(i)
-            result = pd.read_csv(f'results/{i}.csv').values.reshape(-1)
-            
+            df_data = pd.read_csv(f'results/{i}.csv')
+            result = df_data['MAE'].values.reshape(-1)
+            errors = df_data['MAPE'].values.reshape(-1)
             alpha = 0.05
             
             # Null hypothesis: mean(mae_scores) == 1.5
@@ -29,6 +30,7 @@ class HypothesisTest():
             p_one_sided = p_two_sided / 2
 
             mean = result.mean()
+            error = errors.mean()
             std_err = stats.sem(result)
             n = len(result)
             
@@ -40,6 +42,7 @@ class HypothesisTest():
             'H0': 1.5,
             'one-sided_p-value': f"{p_one_sided:.2e}",
             'MAE_sample_mean': round(mean, 4),
+            'MAPE_sample_mean': round(error, 4),
             '95%_confidence_interval': [round(ci[0], 4), round(ci[1], 4)],
         }
             logging.info(f"significane_value:  {alpha}")
@@ -47,6 +50,7 @@ class HypothesisTest():
             logging.info(f"H0:  {1.5}")
             logging.info(f"one-sided p-value: {p_one_sided:.2e}")
             logging.info(f"MAE_sample_mean: {round(mean, 4)}")
+            logging.info(f"MAPE_sample_mean: {round(error, 4)}")
             logging.info(f"95%_confidence_interval: {[round(ci[0], 4), round(ci[1], 4)]}")
             
                

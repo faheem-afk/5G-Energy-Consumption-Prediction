@@ -53,6 +53,7 @@ class TrainingPrediction():
         # Looping through the models 
         for cls_idx, cls in enumerate(module_classes):
             all_scores = []
+            all_errors = []
 
             match = re.search(pattern, module_names[cls_idx])
 
@@ -216,6 +217,7 @@ class TrainingPrediction():
 
                 logging.info(f"Final MAE on test data for fold {fold}: {fold_mae:.4f}, MAPE: {fold_mape:.4f}\n")
                 all_scores.append(fold_mae)
+                all_errors.append(fold_mape)
                 
                 logging.info(f"Evaluation complete ..\n")
                 fold+=1
@@ -225,6 +227,9 @@ class TrainingPrediction():
             
             os.makedirs('results', exist_ok=True)
             pd.Series(all_scores, name="MAE").to_csv(f"results/{match.group()}.csv", index=False)
+            
+            df_mae = pd.read_csv(f"results/{match.group()}.csv", index=False)
+            df_mae['MAPE'] = all_errors
             
             # Storing avg time per epoch information
             os.makedirs('Training-specs', exist_ok=True)
