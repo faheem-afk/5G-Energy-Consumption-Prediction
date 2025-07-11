@@ -228,8 +228,9 @@ class TrainingPrediction():
             os.makedirs('results', exist_ok=True)
             pd.Series(all_scores, name="MAE").to_csv(f"results/{match.group()}.csv", index=False)
             
-            df_mae = pd.read_csv(f"results/{match.group()}.csv", index=False)
+            df_mae = pd.read_csv(f"results/{match.group()}.csv")
             df_mae['MAPE'] = all_errors
+            df_mae.to_csv(f"results/{match.group()}.csv", index=False)
             
             # Storing avg time per epoch information
             os.makedirs('Training-specs', exist_ok=True)
