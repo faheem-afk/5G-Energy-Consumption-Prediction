@@ -4,6 +4,7 @@
   "H0": 1.5,
   "one-sided_p-value": "5.00e-19",
   "MAE_sample_mean": 0.8559,
+  "MAPE_sample_mean":0.0330,
   "95%_confidence_interval": [
     0.8502,
     0.8615
